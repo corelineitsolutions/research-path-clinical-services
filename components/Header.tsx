@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
+import { Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, FileText } from 'lucide-react';
 import { servicesData } from '@/lib/servicesData';
 import { companyInfo } from '@/lib/companyInfo';
 
@@ -39,6 +39,7 @@ export default function Header() {
     },
     { name: 'Quality & Compliance', href: '/quality-compliance' },
     { name: 'Our Clients', href: '/#clients' },
+    { name: 'Institute', href: '/docs/ResearchPath-Brochure.pdf', isPdf: true },
     { name: 'Insights', href: '/insights' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -163,11 +164,27 @@ export default function Header() {
                 );
               }
 
+              if (link.isPdf) {
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-md transition-colors text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50 inline-flex items-center gap-1 group"
+                    title="View ResearchPath Institute Brochure (PDF)"
+                  >
+                    <span>{link.name}</span>
+                    <FileText className="w-3.5 h-3.5 text-[#1760B8] opacity-70 group-hover:opacity-100" />
+                  </a>
+                );
+              }
+
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  className={`px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-md transition-colors ${
                     isActive(link.href)
                       ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
                       : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
@@ -263,6 +280,23 @@ export default function Header() {
             >
               Quality & Compliance
             </Link>
+            <Link
+              href="/#clients"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-lg text-sm font-medium text-[#17212F] hover:bg-slate-50"
+            >
+              Our Clients
+            </Link>
+            <a
+              href="/docs/ResearchPath-Brochure.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2.5 rounded-lg text-sm font-medium text-[#17212F] hover:bg-slate-50 flex items-center justify-between"
+            >
+              <span>Institute (Brochure PDF)</span>
+              <FileText className="w-4 h-4 text-[#1760B8]" />
+            </a>
             <Link
               href="/insights"
               className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
