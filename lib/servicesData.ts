@@ -4,6 +4,8 @@ export interface ServiceItem {
   shortDescription: string;
   iconName: string;
   badge: string;
+  image: string;
+  imageAlt: string;
   overview: string;
   intendedFor: string[];
   scopeOfSupport: string[];
@@ -20,6 +22,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Operational support for trial planning, site initiation, progress tracking, and day-to-day study workflow management.',
     iconName: 'Activity',
     badge: 'Operations',
+    image: '/images/clinical/therapeutic-capsule-science.jpg',
+    imageAlt: 'Clinical trial pharmaceutical formulations and therapeutic capsules',
     overview: 'Clinical trial operations demand rigorous coordination across multiple stakeholders, timelines, and regulatory guidelines. ResearchPath delivers structured operational support designed to assist sponsors, trial managers, and study teams in executing clinical studies efficiently, transparently, and in alignment with approved study protocols.',
     intendedFor: [
       'Pharmaceutical and biotechnology sponsors conducting phase I-IV trials',
@@ -74,6 +78,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Site-level coordination support to assist investigator teams with study documentation, subject appointment workflows, and query resolution.',
     iconName: 'Users',
     badge: 'Coordination',
+    image: '/images/clinical/clinical-investigator-team.jpg',
+    imageAlt: 'Investigator team and clinical research coordinators collaborating at trial site',
     overview: 'Investigator sites require dedicated administrative and operational support to handle protocol complexities while maintaining the highest standard of patient safety and documentation precision. ResearchPath provides qualified clinical research coordination support to streamline site activities and ensure smooth protocol compliance.',
     intendedFor: [
       'Principal Investigators and Co-Investigators at hospital sites',
@@ -124,6 +130,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Ethical, protocol-compliant strategies to assist study sites in identifying, informing, and engaging prospective study participants.',
     iconName: 'UserCheck',
     badge: 'Recruitment',
+    image: '/images/clinical/study-startup-collaboration.jpg',
+    imageAlt: 'Clinical research team planning patient recruitment and study strategy',
     overview: 'Achieving target patient enrollment remains one of clinical research’s greatest challenges. ResearchPath provides ethical, evidence-guided recruitment support designed to enhance awareness, optimize pre-screening workflows, and support retention through clear, empathetic patient engagement materials.',
     intendedFor: [
       'Sponsors and CROs experiencing slow study recruitment rates',
@@ -174,6 +182,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Assisting research teams with data entry verification, electronic CRF tracking, validation checks, and query reconciliation.',
     iconName: 'Database',
     badge: 'Data Management',
+    image: '/images/clinical/clinical-data-review-team.jpg',
+    imageAlt: 'Clinical scientists reviewing electronic data capture records and trial analytics',
     overview: 'Clinical research conclusions depend upon reliable, verifiable, and pristine data. ResearchPath supports research teams with structured clinical data management workflows, data discrepancy tracking, and rigorous quality checks to safeguard data integrity from collection through database lock.',
     intendedFor: [
       'Clinical trial sponsors preparing for regulatory dossier submissions',
@@ -224,6 +234,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Objective evaluation of clinical trial investigator sites, assessing patient population, infrastructure, and investigative capacity.',
     iconName: 'Compass',
     badge: 'Feasibility',
+    image: '/images/clinical/clinical-scientist-laboratory.jpg',
+    imageAlt: 'Investigative site feasibility and clinical laboratory assessment',
     overview: 'Selecting the right investigative sites is fundamental to trial safety, recruitment velocity, and protocol compliance. ResearchPath conducts thorough site feasibility evaluations across India, assessing patient demographics, departmental infrastructure, equipment calibration, and investigator bandwidth.',
     intendedFor: [
       'Sponsors planning new clinical studies in India',
@@ -274,6 +286,8 @@ export const servicesData: ServiceItem[] = [
     shortDescription: 'Support in preparing, organizing, and reviewing clinical study documentation for Ethics Committees and regulatory submissions.',
     iconName: 'FileText',
     badge: 'Regulatory Support',
+    image: '/images/clinical/trial-analytics-documentation.jpg',
+    imageAlt: 'Clinical trial regulatory documentation, statistical charts, and compliance reports',
     overview: 'Navigating clinical regulatory pathways requires meticulous attention to documentation completeness, version control, and formatting standards. ResearchPath supports clinical teams with the drafting, compilation, and administrative review of essential regulatory dossiers for institutional ethics committees and Indian regulatory authorities.',
     intendedFor: [
       'Sponsors preparing Investigational New Drug (IND) or clinical trial applications',

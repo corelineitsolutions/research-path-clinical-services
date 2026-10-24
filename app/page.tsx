@@ -101,67 +101,56 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Visual / Identity Card */}
+            {/* Right Visual / Identity Card with Clinical Image */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl bg-gradient-to-br from-[#17365D] to-[#1760B8] p-8 text-white shadow-xl overflow-hidden">
-                {/* Background decorative watermark */}
-                <div className="absolute -bottom-10 -right-10 opacity-10 pointer-events-none">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl border border-[#DCE5F0] bg-white group">
+                {/* Clinical Image Header */}
+                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
                   <Image
-                    src="/images/logo-mark.png"
-                    alt="ResearchPath brand mark"
-                    width={280}
-                    height={280}
+                    src="/images/clinical/clinical-investigator-team.jpg"
+                    alt="Clinical investigators reviewing patient diagnostic records in clinical trial suite"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    priority
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#17365D] via-[#17365D]/40 to-transparent" />
+                  <div className="absolute top-4 left-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-[#17365D] shadow-md backdrop-blur-sm">
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#1760B8]" />
+                      <span>Clinical Site Support</span>
+                    </span>
+                  </div>
+                  <div className="absolute bottom-3 left-4 right-4 text-white">
+                    <span className="text-xs uppercase tracking-wider text-[#EAF4FF] font-semibold block">Pune Operational Hub</span>
+                    <h4 className="text-base font-bold text-white leading-tight">Patient-Centric Trial Coordination</h4>
+                  </div>
                 </div>
 
-                <div className="relative z-10 space-y-6">
-                  <div className="flex items-center gap-3 border-b border-white/15 pb-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center p-2 border border-white/20">
-                      <Image
-                        src="/images/logo-mark.png"
-                        alt="ResearchPath mark"
-                        width={40}
-                        height={40}
-                        className="object-contain"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-white">ResearchPath</h3>
-                      <p className="text-xs text-[#EAF4FF] tracking-wide uppercase">Clinical Services • Pune</p>
-                    </div>
-                  </div>
-
-                  <blockquote className="italic text-sm text-slate-200 leading-relaxed border-l-2 border-[#2F80ED] pl-4">
+                <div className="bg-gradient-to-br from-[#17365D] to-[#1760B8] p-6 text-white space-y-4">
+                  <blockquote className="italic text-xs sm:text-sm text-slate-100 leading-relaxed border-l-2 border-[#2F80ED] pl-3.5">
                     &ldquo;To support clinical research through dependable services, collaborative working, and a consistent focus on quality and responsible research practices.&rdquo;
                   </blockquote>
 
-                  <div className="space-y-3 pt-2 text-xs">
+                  <div className="space-y-2 pt-1 text-xs">
                     <div className="flex items-start gap-2.5">
-                      <div className="w-2 h-2 rounded-full bg-[#2F80ED] mt-1.5 shrink-0" />
+                      <div className="w-2 h-2 rounded-full bg-[#2F80ED] mt-1 shrink-0" />
                       <div>
-                        <strong className="text-white block">Quality Conscious Operations</strong>
-                        <span className="text-slate-300">Strict alignment with Good Clinical Practice (GCP) principles and trial protocols.</span>
+                        <strong className="text-white">Quality-Conscious Operations: </strong>
+                        <span className="text-slate-200">Alignment with GCP principles and approved protocols.</span>
                       </div>
                     </div>
                     <div className="flex items-start gap-2.5">
-                      <div className="w-2 h-2 rounded-full bg-[#2F80ED] mt-1.5 shrink-0" />
+                      <div className="w-2 h-2 rounded-full bg-[#2F80ED] mt-1 shrink-0" />
                       <div>
-                        <strong className="text-white block">Transparent Reporting</strong>
-                        <span className="text-slate-300">Contemporaneous records, live milestone trackers, and documented audit readiness.</span>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-2 h-2 rounded-full bg-[#2F80ED] mt-1.5 shrink-0" />
-                      <div>
-                        <strong className="text-white block">Participant-Centric Ethics</strong>
-                        <span className="text-slate-300">Uncompromising commitment to confidentiality, informed consent, and patient dignity.</span>
+                        <strong className="text-white">Transparent Reporting: </strong>
+                        <span className="text-slate-200">Contemporaneous records and live milestone tracking.</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-white/15 text-xs text-slate-300 flex items-center justify-between">
-                    <span>Pune, Maharashtra, India</span>
-                    <span className="font-mono text-white/80">+91 9146452014</span>
+                  <div className="pt-3 border-t border-white/15 text-[11px] text-slate-300 flex items-center justify-between">
+                    <span>City Vista, Kharadi, Pune, India</span>
+                    <span className="font-mono text-white/90">+91 91464 52014</span>
                   </div>
                 </div>
               </div>
@@ -187,47 +176,60 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Service Cards Grid (3x2) */}
+          {/* Service Cards Grid (3x2) with Clinical Photography */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {servicesData.map((service) => (
               <div
                 key={service.slug}
-                className="bg-white rounded-2xl border border-[#DCE5F0] p-6 sm:p-7 shadow-subtle hover:shadow-hover hover:border-[#1760B8]/40 transition-all duration-300 flex flex-col justify-between group"
+                className="bg-white rounded-2xl border border-[#DCE5F0] overflow-hidden shadow-subtle hover:shadow-hover hover:border-[#1760B8]/40 transition-all duration-300 flex flex-col justify-between group"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-[#EAF4FF] flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div>
+                  {/* Service Visual Thumbnail */}
+                  <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                    <Image
+                      src={service.image}
+                      alt={service.imageAlt}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20" />
+                    <div className="absolute top-3 left-3 w-10 h-10 rounded-xl bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
                       {getServiceIcon(service.iconName)}
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-[#17365D] border border-slate-200">
-                      {service.badge}
-                    </span>
+                    <div className="absolute top-3 right-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/95 text-[#17365D] shadow-sm backdrop-blur-md">
+                        {service.badge}
+                      </span>
+                    </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#17365D] group-hover:text-[#1760B8] transition-colors">
-                    {service.title}
-                  </h3>
+                  <div className="p-6 space-y-3">
+                    <h3 className="text-lg font-bold text-[#17365D] group-hover:text-[#1760B8] transition-colors leading-snug">
+                      {service.title}
+                    </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {service.shortDescription}
-                  </p>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-2">
+                      {service.shortDescription}
+                    </p>
 
-                  <div className="pt-2 border-t border-slate-100">
-                    <span className="text-xs font-semibold text-[#17365D] block mb-1.5">
-                      Scope Preview:
-                    </span>
-                    <ul className="space-y-1 text-xs text-slate-500">
-                      {service.scopeOfSupport.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5">
-                          <span className="text-[#1760B8] font-bold">•</span>
-                          <span className="line-clamp-1">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="pt-2 border-t border-slate-100">
+                      <span className="text-xs font-semibold text-[#17365D] block mb-1.5">
+                        Scope Preview:
+                      </span>
+                      <ul className="space-y-1 text-xs text-slate-500">
+                        {service.scopeOfSupport.slice(0, 3).map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5">
+                            <span className="text-[#1760B8] font-bold">•</span>
+                            <span className="line-clamp-1">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
-                <div className="pt-6 mt-4 border-t border-slate-100">
+                <div className="px-6 pb-6 pt-2 border-t border-slate-100/60">
                   <Link
                     href={`/services/${service.slug}`}
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1760B8] group-hover:text-[#134e96] group-hover:translate-x-0.5 transition-all"
@@ -407,6 +409,46 @@ export default function HomePage() {
               </div>
             </div>
 
+          </div>
+
+          {/* Quality Assurance Visual Feature */}
+          <div className="mt-12 rounded-2xl overflow-hidden border border-[#DCE5F0] bg-white shadow-subtle grid grid-cols-1 lg:grid-cols-12 items-center">
+            <div className="lg:col-span-5 relative h-64 lg:h-full min-h-[240px]">
+              <Image
+                src="/images/clinical/clinical-data-review-team.jpg"
+                alt="Clinical researchers performing quality audits and data verification"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-transparent via-[#17365D]/20 to-[#17365D]/80" />
+            </div>
+            <div className="lg:col-span-7 p-6 sm:p-8 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[#1760B8]">GCP Verified Operational Culture</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-[#17365D]">
+                Integrated Quality Verification at Every Step
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                From initial site initiation checklists through to formal database lock, our quality team conducts ongoing reconciliations, audit readiness checks, and protocol compliance sweeps to safeguard the scientific validity of your clinical trial data.
+              </p>
+              <div className="pt-2 flex flex-wrap gap-4 text-xs font-medium text-slate-500">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1760B8]" />
+                  <span>ALCOA+ Adherence</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1760B8]" />
+                  <span>Continuous CAPA Tracking</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#1760B8]" />
+                  <span>Transparent Escalation</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

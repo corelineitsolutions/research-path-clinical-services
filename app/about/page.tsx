@@ -90,45 +90,62 @@ export default function AboutPage() {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="bg-[#F8FAFC] rounded-2xl border border-[#DCE5F0] p-8 shadow-card space-y-6">
-                <div className="flex items-center gap-4 border-b border-[#DCE5F0] pb-5">
-                  <div className="w-14 h-14 rounded-xl bg-white p-2 shadow-sm border border-[#DCE5F0] flex items-center justify-center">
-                    <Image
-                      src="/images/logo-mark.png"
-                      alt="ResearchPath mark"
-                      width={48}
-                      height={48}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg text-[#17365D]">ResearchPath</h3>
-                    <p className="text-xs text-[#1760B8] font-semibold uppercase tracking-wider">Clinical Services</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 text-xs text-slate-600">
-                  <div className="space-y-1">
-                    <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Primary Location</span>
-                    <p>406, B Wing, City Vista, Kharadi, Pune, Maharashtra, India.</p>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Core Operations</span>
-                    <p>Clinical Trial Coordination, Site Feasibility, Data Management, Protocol Documentation.</p>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Operating Philosophy</span>
-                    <p>Evidence-based methodologies, absolute protocol fidelity, and contemporaneous ALCOA+ documentation.</p>
+              <div className="bg-white rounded-2xl border border-[#DCE5F0] overflow-hidden shadow-card group">
+                <div className="relative h-56 w-full overflow-hidden bg-slate-100">
+                  <Image
+                    src="/images/clinical/clinical-scientist-laboratory.jpg"
+                    alt="Clinical research diagnostic scientist in Pune laboratory"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/25 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#60a5fa] block">Operations & Diagnostics</span>
+                    <h3 className="font-bold text-base text-white">Dedicated Clinical Research Services</h3>
                   </div>
                 </div>
 
-                <div className="pt-2">
-                  <Link
-                    href="/contact"
-                    className="btn-primary w-full text-xs text-center !py-2.5"
-                  >
-                    Discuss Study Scope with our Team
-                  </Link>
+                <div className="p-6 sm:p-7 space-y-5 bg-[#F8FAFC]">
+                  <div className="flex items-center gap-4 border-b border-[#DCE5F0] pb-4">
+                    <div className="w-12 h-12 rounded-xl bg-white p-2 shadow-sm border border-[#DCE5F0] flex items-center justify-center">
+                      <Image
+                        src="/images/logo-mark.png"
+                        alt="ResearchPath mark"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base text-[#17365D]">ResearchPath</h3>
+                      <p className="text-xs text-[#1760B8] font-semibold uppercase tracking-wider">Clinical Services Pune</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3.5 text-xs text-slate-600">
+                    <div className="space-y-0.5">
+                      <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Primary Location</span>
+                      <p>406, B Wing, City Vista, Kharadi, Pune, Maharashtra, India.</p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Core Operations</span>
+                      <p>Clinical Trial Coordination, Site Feasibility, Data Management, Protocol Documentation.</p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <span className="font-bold text-[#17365D] uppercase tracking-wider block text-[11px]">Operating Philosophy</span>
+                      <p>Evidence-based methodologies, absolute protocol fidelity, and contemporaneous ALCOA+ documentation.</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Link
+                      href="/contact"
+                      className="btn-primary w-full text-xs text-center !py-2.5 block"
+                    >
+                      Discuss Study Scope with our Team
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -235,30 +252,49 @@ export default function AboutPage() {
       {/* Working Philosophy & Quality Commitment */}
       <section className="section-padding bg-[#17365D] text-white">
         <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/10 text-[#EAF4FF] border border-white/20">
-              <HeartHandshake className="w-3.5 h-3.5 text-[#60a5fa]" />
-              <span>Working Philosophy</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/10 text-[#EAF4FF] border border-white/20">
+                <HeartHandshake className="w-3.5 h-3.5 text-[#60a5fa]" />
+                <span>Working Philosophy</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-snug">
+                Collaborative Working & Continuous Quality Oversight
+              </h2>
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
+                We operate not as distant third-party contractors, but as dedicated operational partners integrated into your clinical trial workflow. We maintain transparent communication channels, continuous progress logging, and proactive roadblock identification to ensure your milestones are achieved with scientific rigor.
+              </p>
+              <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                <Link
+                  href="/services"
+                  className="btn-primary !bg-[#2F80ED] hover:!bg-[#1760B8] !py-3 !px-6 text-sm"
+                >
+                  Explore Clinical Services
+                </Link>
+                <Link
+                  href="/contact"
+                  className="btn-outline-white !py-3 !px-6 text-sm"
+                >
+                  Discuss Your Requirements
+                </Link>
+              </div>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-snug">
-              Collaborative Working & Continuous Quality Oversight
-            </h2>
-            <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
-              We operate not as distant third-party contractors, but as dedicated operational partners integrated into your clinical trial workflow. We maintain transparent communication channels, continuous progress logging, and proactive roadblock identification to ensure your milestones are achieved with scientific rigor.
-            </p>
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/services"
-                className="btn-primary !bg-[#2F80ED] hover:!bg-[#1760B8] !py-3 !px-6 text-sm"
-              >
-                Explore Clinical Services
-              </Link>
-              <Link
-                href="/contact"
-                className="btn-outline-white !py-3 !px-6 text-sm"
-              >
-                Discuss Your Requirements
-              </Link>
+
+            <div className="lg:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden border border-white/20 shadow-2xl h-80 w-full group">
+                <Image
+                  src="/images/clinical/study-startup-collaboration.jpg"
+                  alt="Multidisciplinary research coordination meeting in progress"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#17365D]/90 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white text-xs space-y-1">
+                  <span className="font-semibold text-[#60a5fa] block uppercase tracking-wider text-[10px]">Cross-Functional Team Collaboration</span>
+                  <p className="text-slate-200 text-xs">Direct alignment between investigators, sponsor monitors, and site coordinators.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

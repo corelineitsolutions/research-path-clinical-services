@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import {
   ShieldCheck,
@@ -88,8 +89,29 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
             {/* Left Content Area: Details, Scope, Workflow, FAQs */}
-            <div className="lg:col-span-8 space-y-12">
+            <div className="lg:col-span-8 space-y-10">
               
+              {/* Service Featured Image Visual */}
+              <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden border border-[#DCE5F0] shadow-card group">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 800px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#17365D]/85 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
+                  <span className="font-semibold px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30">
+                    {service.badge} Core Focus
+                  </span>
+                  <span className="text-slate-200 hidden sm:inline text-[11px]">
+                    ResearchPath Clinical Operations • Pune, India
+                  </span>
+                </div>
+              </div>
+
               {/* 1. What the service involves (Overview) */}
               <div className="space-y-4">
                 <div className="badge-clinical">

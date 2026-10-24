@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ShieldCheck,
   FileCheck,
@@ -97,7 +98,22 @@ export default function QualityCompliancePage() {
                 </li>
               </ul>
             </div>
-            <div className="lg:col-span-6 bg-[#F8FAFC] border border-[#DCE5F0] rounded-2xl p-6 sm:p-8 space-y-3">
+            <div className="lg:col-span-6 bg-[#F8FAFC] border border-[#DCE5F0] rounded-2xl p-6 sm:p-8 space-y-4">
+              <div className="relative h-44 w-full rounded-xl overflow-hidden border border-[#DCE5F0] group">
+                <Image
+                  src="/images/clinical/trial-analytics-documentation.jpg"
+                  alt="Laboratory analytical reports, statistical curves, and clinical trial documentation"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
+                <div className="absolute bottom-2.5 left-3 right-3 text-white">
+                  <span className="text-[10px] uppercase tracking-wider font-semibold text-[#60a5fa] block">ALCOA+ Framework</span>
+                  <span className="text-xs font-bold text-white">Contemporaneous Documentation & Source Verification</span>
+                </div>
+              </div>
+
               <h4 className="font-bold text-sm text-[#17365D]">Documentation Quality Checks</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
                 We perform routine documentation reconciliations between Investigator Site Files (ISF) and Trial Master Files (TMF) to catch version discrepancies or missing acknowledgments before formal sponsor monitoring or authority audits take place.
@@ -179,7 +195,22 @@ export default function QualityCompliancePage() {
                 </li>
               </ul>
             </div>
-            <div className="lg:col-span-6 bg-[#F8FAFC] border border-[#DCE5F0] rounded-2xl p-6 sm:p-8 space-y-3">
+            <div className="lg:col-span-6 bg-[#F8FAFC] border border-[#DCE5F0] rounded-2xl p-6 sm:p-8 space-y-4">
+              <div className="relative h-44 w-full rounded-xl overflow-hidden border border-[#DCE5F0] group">
+                <Image
+                  src="/images/clinical/clinical-data-review-team.jpg"
+                  alt="Clinical researchers performing quality audits and data verification"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
+                <div className="absolute bottom-2.5 left-3 right-3 text-white">
+                  <span className="text-[10px] uppercase tracking-wider font-semibold text-[#60a5fa] block">Continuous Oversight</span>
+                  <span className="text-xs font-bold text-white">Data Review, Query Resolution & Audit Readiness</span>
+                </div>
+              </div>
+
               <h4 className="font-bold text-sm text-[#17365D]">Transparency Commitment</h4>
               <p className="text-xs text-slate-600 leading-relaxed">
                 When operational deviations or protocol hurdles emerge, we escalate them immediately to the Principal Investigator and sponsor trial managers with transparent documentation and proposed corrective options.

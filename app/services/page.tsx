@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ArrowRight,
   ShieldCheck,
@@ -91,16 +92,26 @@ export default function ServicesDirectoryPage() {
             {servicesData.map((service, index) => (
               <div
                 key={service.slug}
-                className="bg-[#F8FAFC] rounded-2xl border border-[#DCE5F0] p-7 shadow-subtle hover:shadow-card hover:border-[#1760B8] transition-all duration-300 flex flex-col justify-between"
+                className="bg-[#F8FAFC] rounded-2xl border border-[#DCE5F0] p-5 sm:p-6 shadow-subtle hover:shadow-card hover:border-[#1760B8] transition-all duration-300 flex flex-col justify-between group"
               >
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-white shadow-sm border border-[#DCE5F0] flex items-center justify-center">
+                  {/* Service Card Image Banner */}
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden border border-[#DCE5F0] bg-slate-100">
+                    <Image
+                      src={service.image}
+                      alt={service.imageAlt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 left-3 w-10 h-10 rounded-lg bg-white/95 backdrop-blur-sm shadow-sm border border-[#DCE5F0] flex items-center justify-center">
                       {getIcon(service.iconName)}
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#EAF4FF] text-[#1760B8]">
-                      {service.badge}
-                    </span>
+                    <div className="absolute top-3 right-3">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#17365D]/90 backdrop-blur-sm text-white shadow-sm">
+                        {service.badge}
+                      </span>
+                    </div>
                   </div>
 
                   <div>
