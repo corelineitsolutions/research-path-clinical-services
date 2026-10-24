@@ -1,18 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, FileText } from 'lucide-react';
+import { Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, FileText, Download } from 'lucide-react';
 import { servicesData } from '@/lib/servicesData';
 import { companyInfo } from '@/lib/companyInfo';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [instituteDropdownOpen, setInstituteDropdownOpen] = useState(false);
+  const [mobileInstituteOpen, setMobileInstituteOpen] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  const servicesDropdownRef = useRef<HTMLDivElement>(null);
+  const instituteDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,10 +27,26 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(target)) {
+        setServicesDropdownOpen(false);
+      }
+      if (instituteDropdownRef.current && !instituteDropdownRef.current.contains(target)) {
+        setInstituteDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Close mobile menu & dropdowns on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
+    setInstituteDropdownOpen(false);
   }, [pathname]);
 
   const navLinks = [
@@ -37,7 +58,10 @@ export default function Header() {
       hasDropdown: true,
       items: servicesData.map(s => ({ name: s.title, href: `/services/${s.slug}` }))
     },
-    { name: 'Institute', href: '/docs/ResearchPath-Brochure.pdf', isPdf: true },
+    {
+      name: 'Institute',
+      isInstitute: true,
+    },
     { name: 'Insights', href: '/insights' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -107,14 +131,15 @@ export default function Header() {
                 return (
                   <div
                     key={link.name}
+                    ref={servicesDropdownRef}
                     className="relative"
                     onMouseEnter={() => setServicesDropdownOpen(true)}
                     onMouseLeave={() => setServicesDropdownOpen(false)}
                   >
                     <Link
-                      href={link.href}
+                      href={link.href!}
                       className={`inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
-                        isActive(link.href)
+                        isActive(link.href!)
                           ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
                           : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
                       }`}
@@ -162,28 +187,95 @@ export default function Header() {
                 );
               }
 
-              if (link.isPdf) {
+              if (link.isInstitute) {
                 return (
-                  <a
+                  <div
                     key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50 group"
-                    title="View ResearchPath Institute Brochure (PDF)"
+                    ref={instituteDropdownRef}
+                    className="relative"
+                    onMouseEnter={() => setInstituteDropdownOpen(true)}
+                    onMouseLeave={() => setInstituteDropdownOpen(false)}
                   >
-                    <span>{link.name}</span>
-                    <FileText className="w-3.5 h-3.5 text-[#1760B8] opacity-75 group-hover:opacity-100 transition-opacity" />
-                  </a>
+                    <button
+                      type="button"
+                      onClick={() => setInstituteDropdownOpen((prev) => !prev)}
+                      className={`inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                        instituteDropdownOpen
+                          ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
+                          : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
+                      }`}
+                      aria-expanded={instituteDropdownOpen}
+                      aria-haspopup="true"
+                      aria-label="Institute dropdown menu"
+                    >
+                      <span>{link.name}</span>
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          instituteDropdownOpen ? 'rotate-180 text-[#1760B8]' : 'text-slate-400'
+                        }`}
+                      />
+                    </button>
+
+                    {/* Institute Dropdown Menu */}
+                    {instituteDropdownOpen && (
+                      <div className="absolute top-full left-0 w-72 pt-2 z-50">
+                        <div className="bg-white rounded-xl shadow-xl border border-[#DCE5F0] p-1.5 divide-y divide-slate-100 animate-in fade-in slide-in-from-top-1 duration-150">
+                          <div className="px-3 py-1.5 text-[11px] font-semibold tracking-wider text-[#64748B] uppercase">
+                            Institute Documentation
+                          </div>
+                          <div className="pt-1 space-y-1">
+                            <a
+                              href="/docs/ResearchPath-Institute-About.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => setInstituteDropdownOpen(false)}
+                              className="flex items-start gap-2.5 px-3 py-2 text-xs rounded-lg transition-colors text-[#17212F] hover:bg-[#EAF4FF] hover:text-[#1760B8] group"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-[#EAF4FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#1760B8] transition-colors">
+                                <FileText className="w-4 h-4 text-[#1760B8] group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-sm text-[#17212F] group-hover:text-[#1760B8]">
+                                  About Us
+                                </div>
+                                <div className="text-[11px] text-[#64748B] leading-tight mt-0.5">
+                                  Open Introduction Slide PPT (PDF)
+                                </div>
+                              </div>
+                            </a>
+
+                            <a
+                              href="/docs/ResearchPath-Brochure.pdf"
+                              download="ResearchPath-Brochure.pdf"
+                              onClick={() => setInstituteDropdownOpen(false)}
+                              className="flex items-start gap-2.5 px-3 py-2 text-xs rounded-lg transition-colors text-[#17212F] hover:bg-[#EAF4FF] hover:text-[#1760B8] group"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-[#EAF4FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#1760B8] transition-colors">
+                                <Download className="w-4 h-4 text-[#1760B8] group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-sm text-[#17212F] group-hover:text-[#1760B8]">
+                                  Download Brochure
+                                </div>
+                                <div className="text-[11px] text-[#64748B] leading-tight mt-0.5">
+                                  Save official brochure to your device
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 );
               }
 
               return (
                 <Link
                   key={link.name}
-                  href={link.href}
+                  href={link.href!}
                   className={`inline-flex items-center px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    isActive(link.href)
+                    isActive(link.href!)
                       ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
                       : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
                   }`}
@@ -270,16 +362,46 @@ export default function Header() {
               </div>
             </div>
 
-            <a
-              href="/docs/ResearchPath-Brochure.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-lg text-sm font-medium text-[#17212F] hover:bg-slate-50 flex items-center justify-between"
-            >
-              <span>Institute (Brochure PDF)</span>
-              <FileText className="w-4 h-4 text-[#1760B8]" />
-            </a>
+            {/* Institute Accordion */}
+            <div className="pt-1 pb-1">
+              <button
+                type="button"
+                onClick={() => setMobileInstituteOpen(!mobileInstituteOpen)}
+                className="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-[#17365D] hover:bg-slate-50 rounded-lg"
+              >
+                <span>Institute</span>
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${mobileInstituteOpen ? 'rotate-180 text-[#1760B8]' : ''}`} />
+              </button>
+              {mobileInstituteOpen && (
+                <div className="ml-3 pl-3 border-l-2 border-[#DCE5F0] space-y-1 my-1">
+                  <a
+                    href="/docs/ResearchPath-Institute-About.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between px-2.5 py-2 text-xs rounded-lg text-[#17212F] hover:bg-[#EAF4FF] hover:text-[#1760B8]"
+                  >
+                    <div>
+                      <div className="font-semibold text-xs">About Us</div>
+                      <div className="text-[10px] text-slate-500">View Introduction Slide PPT (PDF)</div>
+                    </div>
+                    <FileText className="w-3.5 h-3.5 text-[#1760B8] shrink-0" />
+                  </a>
+                  <a
+                    href="/docs/ResearchPath-Brochure.pdf"
+                    download="ResearchPath-Brochure.pdf"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between px-2.5 py-2 text-xs rounded-lg text-[#17212F] hover:bg-[#EAF4FF] hover:text-[#1760B8]"
+                  >
+                    <div>
+                      <div className="font-semibold text-xs">Download Brochure</div>
+                      <div className="text-[10px] text-slate-500">Save PDF to device</div>
+                    </div>
+                    <Download className="w-3.5 h-3.5 text-[#1760B8] shrink-0" />
+                  </a>
+                </div>
+              )}
+            </div>
             <Link
               href="/insights"
               className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
