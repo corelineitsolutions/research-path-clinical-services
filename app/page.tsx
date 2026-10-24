@@ -22,6 +22,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import HeroSection from '@/components/HeroSection';
+import ClientsAndInsightsSection from '@/components/ClientsAndInsightsSection';
 import { servicesData } from '@/lib/servicesData';
 import { insightsData } from '@/lib/insightsData';
 import { companyInfo } from '@/lib/companyInfo';
@@ -554,70 +555,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. Section F: Knowledge and Insights */}
-      <section className="section-padding bg-[#F8FAFC] border-t border-[#DCE5F0]" id="insights">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-            <div>
-              <div className="badge-clinical mb-2">
-                <span>Clinical Perspectives</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#17365D] tracking-tight">
-                Knowledge & Clinical Insights
-              </h2>
-              <p className="text-slate-600 text-sm mt-1 max-w-xl">
-                Original educational articles and perspectives on trial operations, documentation best practices, quality frameworks, and participant engagement.
-              </p>
-            </div>
-            <Link
-              href="/insights"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1760B8] hover:text-[#134e96]"
-            >
-              <span>Explore all articles</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {insightsData.slice(0, 3).map((article) => (
-              <article
-                key={article.slug}
-                className="bg-white rounded-2xl border border-[#DCE5F0] p-6 shadow-subtle hover:shadow-card transition-all flex flex-col justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs text-[#64748B]">
-                    <span className="font-semibold text-[#1760B8] px-2.5 py-0.5 rounded-full bg-[#EAF4FF]">
-                      {article.category}
-                    </span>
-                    <span>{article.readTime}</span>
-                  </div>
-
-                  <h3 className="font-bold text-base text-[#17365D] hover:text-[#1760B8] transition-colors leading-snug">
-                    <Link href={`/insights/${article.slug}`}>
-                      {article.title}
-                    </Link>
-                  </h3>
-
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <span className="text-slate-400">{article.publishDate}</span>
-                  <Link
-                    href={`/insights/${article.slug}`}
-                    className="font-semibold text-[#1760B8] hover:text-[#134e96] inline-flex items-center gap-1"
-                  >
-                    <span>Read Article</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 7. Section F: Our Clients & Knowledge Insights with Interactive Tabs */}
+      <ClientsAndInsightsSection insightsData={insightsData} />
 
       {/* 8. Section G: Contact CTA */}
       <section className="bg-gradient-to-r from-[#17365D] via-[#1760B8] to-[#17365D] text-white py-16 sm:py-20">

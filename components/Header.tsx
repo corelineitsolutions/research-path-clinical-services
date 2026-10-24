@@ -38,6 +38,7 @@ export default function Header() {
       items: servicesData.map(s => ({ name: s.title, href: `/services/${s.slug}` }))
     },
     { name: 'Quality & Compliance', href: '/quality-compliance' },
+    { name: 'Our Clients', href: '/#clients' },
     { name: 'Insights', href: '/insights' },
     { name: 'Contact', href: '/contact' },
   ];
