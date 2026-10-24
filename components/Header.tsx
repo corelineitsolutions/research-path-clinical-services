@@ -37,8 +37,6 @@ export default function Header() {
       hasDropdown: true,
       items: servicesData.map(s => ({ name: s.title, href: `/services/${s.slug}` }))
     },
-    { name: 'Quality & Compliance', href: '/quality-compliance' },
-    { name: 'Our Clients', href: '/#clients' },
     { name: 'Institute', href: '/docs/ResearchPath-Brochure.pdf', isPdf: true },
     { name: 'Insights', href: '/insights' },
     { name: 'Contact', href: '/contact' },
@@ -103,7 +101,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-3" aria-label="Main navigation">
             {navLinks.map((link) => {
               if (link.hasDropdown) {
                 return (
@@ -115,7 +113,7 @@ export default function Header() {
                   >
                     <Link
                       href={link.href}
-                      className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      className={`inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
                         isActive(link.href)
                           ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
                           : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
@@ -171,11 +169,11 @@ export default function Header() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-md transition-colors text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50 inline-flex items-center gap-1 group"
+                    className="inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50 group"
                     title="View ResearchPath Institute Brochure (PDF)"
                   >
                     <span>{link.name}</span>
-                    <FileText className="w-3.5 h-3.5 text-[#1760B8] opacity-70 group-hover:opacity-100" />
+                    <FileText className="w-3.5 h-3.5 text-[#1760B8] opacity-75 group-hover:opacity-100 transition-opacity" />
                   </a>
                 );
               }
@@ -184,7 +182,7 @@ export default function Header() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-2.5 xl:px-3 py-2 text-xs xl:text-sm font-medium rounded-md transition-colors ${
+                  className={`inline-flex items-center px-3 xl:px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive(link.href)
                       ? 'text-[#1760B8] bg-[#EAF4FF] font-semibold'
                       : 'text-[#17212F] hover:text-[#1760B8] hover:bg-slate-50'
@@ -272,21 +270,6 @@ export default function Header() {
               </div>
             </div>
 
-            <Link
-              href="/quality-compliance"
-              className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
-                pathname === '/quality-compliance' ? 'bg-[#EAF4FF] text-[#1760B8] font-semibold' : 'text-[#17212F] hover:bg-slate-50'
-              }`}
-            >
-              Quality & Compliance
-            </Link>
-            <Link
-              href="/#clients"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-lg text-sm font-medium text-[#17212F] hover:bg-slate-50"
-            >
-              Our Clients
-            </Link>
             <a
               href="/docs/ResearchPath-Brochure.pdf"
               target="_blank"
