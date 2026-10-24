@@ -105,13 +105,14 @@ export default function HomePage() {
             <div className="lg:col-span-5">
               <div className="relative rounded-2xl overflow-hidden shadow-xl border border-[#DCE5F0] bg-white group">
                 {/* Clinical Image Header */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
+                <div className="relative h-72 sm:h-80 w-full overflow-hidden bg-slate-100">
                   <Image
-                    src="/images/clinical/clinical-investigator-team.jpg"
-                    alt="Clinical investigators reviewing patient diagnostic records in clinical trial suite"
+                    src="/images/clinical/clinical-team-pune.jpg"
+                    alt="ResearchPath multidisciplinary clinical trial operations team"
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover object-[center_25%] group-hover:scale-105 transition-transform duration-700"
                     priority
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#17365D] via-[#17365D]/40 to-transparent" />
                   <div className="absolute top-4 left-4">
