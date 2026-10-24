@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, FileText, Download } from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight, FileText, Download } from 'lucide-react';
 import { servicesData } from '@/lib/servicesData';
 import { companyInfo } from '@/lib/companyInfo';
 
@@ -73,36 +73,6 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white transition-all duration-200">
-      {/* Top Utility Bar */}
-      <div className="bg-[#17365D] text-white text-xs py-2 border-b border-[#234b7e]">
-        <div className="container-custom flex flex-wrap items-center justify-between gap-y-1">
-          <div className="flex items-center gap-6">
-            <a
-              href={`tel:${companyInfo.phoneTel}`}
-              className="inline-flex items-center gap-1.5 hover:text-[#EAF4FF] transition-colors"
-              aria-label={`Call ResearchPath at ${companyInfo.phoneDisplay}`}
-            >
-              <Phone className="w-3.5 h-3.5 text-[#2F80ED]" />
-              <span className="font-medium">{companyInfo.phoneDisplay}</span>
-            </a>
-            <a
-              href={`mailto:${companyInfo.email}`}
-              className="inline-flex items-center gap-1.5 hover:text-[#EAF4FF] transition-colors"
-              aria-label={`Email ResearchPath at ${companyInfo.email}`}
-            >
-              <Mail className="w-3.5 h-3.5 text-[#2F80ED]" />
-              <span>{companyInfo.email}</span>
-            </a>
-          </div>
-          <div className="hidden md:flex items-center gap-2 text-slate-300">
-            <MapPin className="w-3.5 h-3.5 text-[#2F80ED]" />
-            <span>Kharadi, Pune, Maharashtra, India</span>
-            <span className="mx-2 text-slate-400">|</span>
-            <span className="text-white font-medium">Clinical Services</span>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navigation Bar */}
       <div className={`transition-all duration-200 border-b ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-[#DCE5F0] py-2.5' : 'bg-white border-[#DCE5F0] py-3.5'}`}>
         <div className="container-custom flex items-center justify-between">

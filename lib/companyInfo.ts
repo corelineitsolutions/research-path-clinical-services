@@ -19,6 +19,13 @@ export const companyInfo = {
   operatingHours: 'Monday – Friday: 9:00 AM – 6:30 PM IST',
   mission: 'To support clinical research through dependable services, collaborative working, and a consistent focus on quality and responsible research practices.',
   vision: 'To be a trusted clinical services partner recognised for professionalism, collaboration, and a quality-conscious approach to research.',
+  social: {
+    instagram: 'https://www.instagram.com/researchpath_institute?obrf=MXJyeWhnZTZ1Y2RpMQ==',
+    facebook: 'https://www.facebook.com/share/1Howeak6Ce/?mibextid=wwXIfr',
+    linkedin: 'https://www.linkedin.com/in/researchpath-clinical-services-9b131133b?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
+    whatsapp: 'https://wa.me/919146452014?text=Hello%20ResearchPath%20Clinical%20Services%2C%20I%20would%20like%20to%20inquire%20about%20your%20services.',
+    whatsappNumber: '9146452014',
+  },
   coreValues: [
     {
       title: 'Scientific Integrity',
