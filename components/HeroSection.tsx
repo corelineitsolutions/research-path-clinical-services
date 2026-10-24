@@ -11,23 +11,23 @@ export default function HeroSection() {
       {/* Background Image Container with Perfect Full-Span Scaling */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/images/hero-bg-extended.jpg"
+          src="/images/hero-cover.jpg"
           alt="ResearchPath clinical research environment with researchers and monitoring screens"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center w-full h-full opacity-90 transition-opacity duration-300"
+          className="object-cover object-center w-full h-full"
         />
-        {/* Restrained directional gradient to ensure text readability on the left while keeping the entire center and right artwork 100% visible */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#17365D]/90 via-[#17365D]/60 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#17365D] via-transparent to-transparent md:hidden pointer-events-none" />
+        {/* Soft, balanced ambient overlay that preserves the vivid colors and center branding while ensuring text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#17365D]/50 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#17365D]/70 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Hero Content Container */}
-      <div className="container-custom relative z-10 py-10 sm:py-14 md:py-16 lg:py-20">
-        <div className="max-w-xl lg:max-w-lg">
+      <div className="container-custom relative z-10 py-12 sm:py-16 md:py-20 lg:py-24">
+        <div className="max-w-lg lg:max-w-md">
           {/* Frosted text panel designed to keep text legible while letting background visuals breathe */}
-          <div className="bg-[#17365D]/80 backdrop-blur-md border border-white/20 rounded-2xl p-6 sm:p-7 lg:p-8 shadow-2xl space-y-5">
+          <div className="bg-[#17365D]/75 backdrop-blur-md border border-white/20 rounded-2xl p-6 sm:p-7 shadow-2xl space-y-4">
             
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold tracking-wider uppercase text-[#EAF4FF]">
