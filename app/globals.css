@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-primary: #1760B8;
+  --brand-accent: #2F80ED;
+  --brand-navy: #17365D;
+  --brand-dark: #17212F;
+  --brand-light: #EAF4FF;
+  --brand-border: #DCE5F0;
+  --brand-muted: #64748B;
+  --brand-surface: #F8FAFC;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color: #17212F;
+    background-color: #FFFFFF;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid #2F80ED;
+    outline-offset: 3px;
+  }
+
+  /* Selection style */
+  ::selection {
+    background-color: #1760B8;
+    color: #FFFFFF;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg px-6 py-3 bg-[#1760B8] text-white transition-all duration-200 hover:bg-[#134e96] hover:shadow-lg active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-[#2F80ED] focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-medium rounded-lg px-6 py-3 bg-white text-[#17365D] border border-[#DCE5F0] transition-all duration-200 hover:bg-[#EAF4FF] hover:border-[#2F80ED] hover:text-[#1760B8] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#2F80ED] focus-visible:ring-offset-2;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center font-medium rounded-lg px-6 py-3 bg-white/10 backdrop-blur-sm text-white border border-white/30 transition-all duration-200 hover:bg-white hover:text-[#17365D] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-white;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .badge-clinical {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase bg-[#EAF4FF] text-[#1760B8] border border-[#DCE5F0];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

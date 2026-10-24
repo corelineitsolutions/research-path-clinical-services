@@ -1,0 +1,40 @@
+export const companyInfo = {
+  name: 'ResearchPath',
+  descriptor: 'Clinical Services',
+  fullName: 'ResearchPath — Clinical Services',
+  tagline: 'Supporting Better Clinical Research Through Quality-Driven Services',
+  phone: '+91 9146452014',
+  phoneDisplay: '+91 91464 52014',
+  phoneTel: '+919146452014',
+  email: 'info@researchpath.in',
+  address: {
+    suite: '406, B Wing',
+    building: 'City Vista',
+    locality: 'Kharadi',
+    city: 'Pune',
+    state: 'Maharashtra',
+    country: 'India',
+    full: '406, B Wing, City Vista, Kharadi, Pune, Maharashtra, India.',
+  },
+  operatingHours: 'Monday – Friday: 9:00 AM – 6:30 PM IST',
+  mission: 'To support clinical research through dependable services, collaborative working, and a consistent focus on quality and responsible research practices.',
+  vision: 'To be a trusted clinical services partner recognised for professionalism, collaboration, and a quality-conscious approach to research.',
+  coreValues: [
+    {
+      title: 'Scientific Integrity',
+      description: 'Upholding uncompromising rigor and precision in every operational workflow, ensuring data credibility and procedural authenticity.'
+    },
+    {
+      title: 'Collaborative Partnership',
+      description: 'Working alongside sponsors, investigators, and clinical teams as dedicated, responsive extensions of their research vision.'
+    },
+    {
+      title: 'Documentation Precision',
+      description: 'Treating documentation as the tangible embodiment of clinical quality, adhering strictly to contemporaneous ALCOA+ principles.'
+    },
+    {
+      title: 'Ethical Responsibility',
+      description: 'Prioritizing participant protection, privacy safeguards, and strict confidentiality across every operational touchpoint.'
+    }
+  ]
+};
