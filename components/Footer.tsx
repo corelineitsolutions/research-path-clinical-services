@@ -152,12 +152,12 @@ export default function Footer() {
       {/* Lower Footer: Legal, Originality Notice, Copyright, & Social Channels */}
       <div className="bg-[#0f233c] text-xs text-slate-400 py-6 border-t border-[#1d3d63]">
         <div className="container-custom flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-center md:text-left space-y-1.5 max-w-xl">
+          <div className="text-center md:text-left space-y-0.5">
             <p className="text-slate-300">
-              &copy; {currentYear} {companyInfo.name} — {companyInfo.descriptor}. All rights reserved.
+              &copy; {currentYear} {companyInfo.name} — {companyInfo.descriptor}
             </p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              ResearchPath is an independent clinical services business based in Pune, Maharashtra. We operate exclusively as a clinical research services organisation and not as an educational or vocational institute.
+            <p className="text-xs text-slate-400">
+              All Rights Reserved
             </p>
           </div>
 
