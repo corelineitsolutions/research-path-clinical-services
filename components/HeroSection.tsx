@@ -55,7 +55,7 @@ export default function HeroSection() {
 
   return (
     <section 
-      className="relative w-full bg-[#081528] text-white overflow-hidden min-h-[500px] sm:min-h-[570px] md:min-h-[640px] lg:min-h-[710px] xl:min-h-[760px] flex items-center" 
+      className="relative w-full bg-[#081528] text-white overflow-hidden min-h-[450px] sm:min-h-[510px] md:min-h-[575px] lg:min-h-[640px] xl:min-h-[685px] flex items-center" 
       id="hero"
     >
       {/* 1. CONTINUOUS HORIZONTAL SLIDING BACKGROUND TRACK (3s Loop) */}
@@ -85,33 +85,37 @@ export default function HeroSection() {
         </div>
 
         {/* 2. AMBIENT OVERLAY WEIGHTED TO THE LEFT (Maximum text contrast on left, rich image visibility on right) */}
-        <div className="absolute inset-0 z-10 bg-[#071322]/40" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#071322]/85 via-[#071322]/50 to-[#071322]/25" />
+        <div className="absolute inset-0 z-10 bg-[#071322]/35" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#071322]/85 via-[#071322]/50 to-[#071322]/20" />
         <div className="absolute top-0 inset-x-0 h-16 z-10 bg-gradient-to-b from-[#071322]/70 to-transparent" />
         <div className="absolute bottom-0 inset-x-0 h-16 z-10 bg-gradient-to-t from-[#071322]/85 to-transparent" />
       </div>
 
-      {/* 3. FOREGROUND CONTENT: Left-Aligned Headline (-8% Sizing) */}
-      <div className="container-custom relative z-20 py-12 sm:py-16 md:py-20 lg:py-24 w-full">
-        <div className="max-w-4xl lg:max-w-5xl flex flex-col items-start text-left">
+      {/* 3. FOREGROUND CONTENT: 4-Line Left-Aligned Headline with Radiant Blue Highlight */}
+      <div className="container-custom relative z-20 py-10 sm:py-14 md:py-18 lg:py-20 w-full">
+        <div className="max-w-2xl sm:max-w-3xl flex flex-col items-start text-left">
           
-          {/* Minimal Accent Bar */}
-          <div className="mb-4 sm:mb-6">
+          {/* Minimal Accent Bar Aligned to Left */}
+          <div className="flex justify-start mb-4 sm:mb-6">
             <span className="block w-16 sm:w-24 h-1.5 rounded-full bg-gradient-to-r from-[#58A5FF] via-[#2F80ED] to-transparent shadow-lg shadow-[#2F80ED]/40" />
           </div>
 
-          {/* Headline (-8% Size) */}
-          <h1 className="text-[33px] min-[380px]:text-[40px] sm:text-[49px] md:text-[57px] lg:text-[59px] xl:text-[66px] font-extrabold tracking-tight text-white leading-[1.18] sm:leading-[1.12] drop-shadow-md">
-            Supporting Better Clinical Research{' '}
-            <br className="hidden md:inline" />
-            Through{' '}
-            <span className="bg-gradient-to-r from-[#58A5FF] via-[#93C5FD] to-[#58A5FF] bg-clip-text text-transparent drop-shadow-sm">
+          {/* 4-Line Headline — Left-Aligned */}
+          <h1 className="text-[30px] min-[380px]:text-[36px] sm:text-[44px] md:text-[51px] lg:text-[53px] xl:text-[60px] font-extrabold tracking-tight text-white leading-[1.2] sm:leading-[1.14] drop-shadow-md text-left">
+            <span>Supporting Better</span>
+            <br />
+            <span>Clinical Research</span>
+            <br />
+            <span>Through</span>
+            <br />
+            {/* Eye-Catching Radiant Blue Highlight with Ambient Glow */}
+            <span className="relative inline-block mt-1 sm:mt-1.5 bg-gradient-to-r from-[#60A5FA] via-[#BAE6FD] to-[#38BDF8] bg-clip-text text-transparent drop-shadow-[0_0_24px_rgba(56,189,248,0.6)]">
               <span className="whitespace-nowrap">Quality-Driven</span> Services
             </span>
           </h1>
 
           {/* Slider Indicators — Left-Aligned under Headline */}
-          <div className="flex items-center gap-2.5 mt-7 sm:mt-9">
+          <div className="flex items-center justify-start gap-2.5 mt-7 sm:mt-9">
             {slides.map((_, idx) => (
               <button
                 key={idx}
