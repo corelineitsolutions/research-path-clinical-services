@@ -16,7 +16,7 @@ export const companyInfo = {
     country: 'India',
     full: '406, B Wing, City Vista, Kharadi, Pune, Maharashtra, India.',
   },
-  operatingHours: 'Monday – Friday: 9:00 AM – 6:30 PM IST',
+  operatingHours: 'Monday – Saturday: 11:00 AM – 6:00 PM IST',
   mission: 'To support clinical research through dependable services, collaborative working, and a consistent focus on quality and responsible research practices.',
   vision: 'To be a trusted clinical services partner recognised for professionalism, collaboration, and a quality-conscious approach to research.',
   social: {

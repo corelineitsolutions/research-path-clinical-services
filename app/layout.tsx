@@ -103,7 +103,7 @@ export default function RootLayout({
     },
     telephone: companyInfo.phone,
     email: companyInfo.email,
-    openingHours: 'Mo,Tu,We,Th,Fr 09:00-18:30',
+    openingHours: 'Mo,Tu,We,Th,Fr,Sa 11:00-18:00',
     priceRange: '$$',
   };
 
