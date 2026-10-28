@@ -70,24 +70,31 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
     setLoading(true);
     setStatus({ type: 'idle' });
 
-    // Generate fallback mailto URL in case of network obstacles
-    const emailSubject = encodeURIComponent(`Clinical Enquiry: ${formData.fullName.trim()} - ${formData.organisation.trim()}`);
+    const cleanName = formData.fullName.trim();
+    const cleanOrg = formData.organisation.trim();
+    const cleanEmail = formData.workEmail.trim();
+    const cleanPhone = formData.phoneNumber.trim() || 'Not provided';
+    const cleanType = formData.enquiryType;
+    const cleanService = formData.serviceOfInterest;
+    const cleanMessage = formData.message.trim();
+
+    const emailSubject = encodeURIComponent(`Clinical Enquiry: ${cleanName} - ${cleanOrg}`);
     const emailBody = encodeURIComponent(
 `Dear ResearchPath Clinical Services Team,
 
 I would like to submit the following clinical enquiry:
 
 --------------------------------------------------
-Full Name: ${formData.fullName.trim()}
-Organisation / Institution: ${formData.organisation.trim()}
-Work Email: ${formData.workEmail.trim()}
-Phone Number: ${formData.phoneNumber.trim() || 'Not provided'}
-Enquiry Type: ${formData.enquiryType}
-Service of Interest: ${formData.serviceOfInterest}
+Full Name: ${cleanName}
+Organisation / Institution: ${cleanOrg}
+Work Email: ${cleanEmail}
+Phone Number: ${cleanPhone}
+Enquiry Type: ${cleanType}
+Service of Interest: ${cleanService}
 --------------------------------------------------
 
 Project Description / Study Requirements:
-${formData.message.trim()}
+${cleanMessage}
 
 --------------------------------------------------
 Submitted via ResearchPath Website Portal
@@ -95,103 +102,46 @@ Submitted via ResearchPath Website Portal
     );
     const computedMailto = `mailto:info@researchpath.in?subject=${emailSubject}&body=${emailBody}`;
 
+    // 1. Immediately trigger the user's default email client addressed to info@researchpath.in
     try {
-      let isSuccess = false;
-      let refId = '';
-      let successMsg = '';
-      let serverMailto = '';
-
-      // 1. Primary: Submit through backend API route
-      try {
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          isSuccess = true;
-          refId = data.referenceId;
-          successMsg = data.message;
-          serverMailto = data.mailtoUrl;
-        } else {
-          console.warn('API returned non-200:', data);
-        }
-      } catch (apiErr) {
-        console.warn('Backend API request error, proceeding to browser dispatch fallback:', apiErr);
-      }
-
-      // 2. Secondary: If backend API was unreachable (e.g. static host), dispatch directly to FormSubmit
-      if (!isSuccess) {
-        try {
-          const fsRes = await fetch('https://formsubmit.co/ajax/info@researchpath.in', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-              name: formData.fullName.trim(),
-              organisation: formData.organisation.trim(),
-              email: formData.workEmail.trim(),
-              phone: formData.phoneNumber.trim() || 'Not provided',
-              enquiryType: formData.enquiryType,
-              serviceOfInterest: formData.serviceOfInterest,
-              message: formData.message.trim(),
-              _subject: `New Clinical Enquiry: ${formData.fullName.trim()} - ${formData.organisation.trim()}`,
-              _replyto: formData.workEmail.trim(),
-              _template: 'table',
-              _captcha: 'false',
-            }),
-          });
-
-          if (fsRes.ok) {
-            isSuccess = true;
-            refId = `ENQ-${Date.now().toString().slice(-6)}`;
-            successMsg = 'Thank you. Your enquiry has been automatically transmitted to info@researchpath.in. A ResearchPath representative will review your clinical requirements and reply promptly.';
-          }
-        } catch (fsErr) {
-          console.warn('Direct FormSubmit error:', fsErr);
-        }
-      }
-
-      if (isSuccess) {
-        setStatus({
-          type: 'success',
-          message: successMsg || 'Thank you. Your enquiry has been automatically transmitted to info@researchpath.in. A representative will review your clinical requirements and reply promptly.',
-          referenceId: refId || `ENQ-${Date.now().toString().slice(-6)}`,
-          mailtoUrl: serverMailto || computedMailto,
-        });
-
-        // Reset form fields
-        setFormData({
-          fullName: '',
-          organisation: '',
-          workEmail: '',
-          phoneNumber: '',
-          enquiryType: 'Clinical Study Support',
-          serviceOfInterest: defaultService || 'General Operational Inquiry',
-          message: '',
-          privacyConsent: false,
-          hp_field: '',
-        });
-      } else {
-        setStatus({
-          type: 'error',
-          message: 'Unable to reach the automatic email dispatch server due to a network restriction. Please click below to send your enquiry directly to info@researchpath.in.',
-          mailtoUrl: computedMailto,
-        });
-      }
-    } catch (err: any) {
-      setStatus({
-        type: 'error',
-        message: err?.message || 'We encountered an unexpected issue. Please click below to send your enquiry directly to info@researchpath.in.',
-        mailtoUrl: computedMailto,
-      });
-    } finally {
-      setLoading(false);
+      const link = document.createElement('a');
+      link.href = computedMailto;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch {
+      window.location.href = computedMailto;
     }
+
+    // 2. Asynchronously log the enquiry to the server
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    }).catch((err) => console.warn('Background logging note:', err));
+
+    // 3. Update the UI to confirm that the draft has been opened and ready to send
+    const refId = `ENQ-${Date.now().toString().slice(-6)}`;
+    setStatus({
+      type: 'success',
+      referenceId: refId,
+      mailtoUrl: computedMailto,
+      message: 'Your email draft addressed to info@researchpath.in has been opened with your inquiry pre-filled. Please click Send in your email client to dispatch your message.',
+    });
+
+    // Reset form fields
+    setFormData({
+      fullName: '',
+      organisation: '',
+      workEmail: '',
+      phoneNumber: '',
+      enquiryType: 'Clinical Study Support',
+      serviceOfInterest: defaultService || 'General Operational Inquiry',
+      message: '',
+      privacyConsent: false,
+      hp_field: '',
+    });
+    setLoading(false);
   };
 
   return (
@@ -223,17 +173,30 @@ Submitted via ResearchPath Website Portal
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div>
-            <h4 className="text-lg font-bold text-emerald-900">Enquiry Transmitted to info@researchpath.in</h4>
+            <h4 className="text-lg font-bold text-emerald-900">Enquiry Draft Prepared for info@researchpath.in</h4>
             <p className="text-sm text-emerald-800 mt-2 max-w-md mx-auto leading-relaxed">
               {status.message}
             </p>
             {status.referenceId && (
-              <div className="mt-4 inline-block bg-white border border-emerald-300 px-4 py-2 rounded-lg text-xs font-mono font-medium text-emerald-800">
+              <div className="mt-4 inline-block bg-white border border-emerald-300 px-4 py-1.5 rounded-lg text-xs font-mono font-medium text-emerald-800">
                 Reference ID: <span className="font-bold">{status.referenceId}</span>
               </div>
             )}
           </div>
-          <p className="text-xs text-slate-500">
+
+          {status.mailtoUrl && (
+            <div className="pt-1">
+              <a
+                href={status.mailtoUrl}
+                className="btn-primary !py-2.5 !px-5 inline-flex items-center gap-2 text-xs shadow-sm !bg-[#1760B8] hover:!bg-[#134e96]"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Open Email Draft Again (info@researchpath.in)</span>
+              </a>
+            </div>
+          )}
+
+          <p className="text-xs text-slate-500 pt-1">
             For urgent protocol coordination, you may also reach our Pune office directly at{' '}
             <a href="tel:+919146452014" className="text-[#1760B8] font-semibold underline">
               +91 91464 52014
@@ -246,7 +209,7 @@ Submitted via ResearchPath Website Portal
           <button
             type="button"
             onClick={() => setStatus({ type: 'idle' })}
-            className="btn-secondary !text-xs !py-2 !px-4 mt-2"
+            className="btn-secondary !text-xs !py-2 !px-4 mt-1"
           >
             Submit Another Inquiry
           </button>
