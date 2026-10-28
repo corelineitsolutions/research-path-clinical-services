@@ -20,8 +20,8 @@ export default function Footer() {
                 <Image
                   src="/images/logo-horizontal-white.png"
                   alt="ResearchPath — Clinical Services"
-                  width={340}
-                  height={52}
+                  width={356}
+                  height={75}
                   className="h-11 w-auto object-contain"
                 />
               </div>

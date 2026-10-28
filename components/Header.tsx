@@ -82,13 +82,13 @@ export default function Header() {
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1760B8] rounded-md"
             aria-label="ResearchPath — Clinical Services Home"
           >
-            <div className="relative h-12 w-auto max-w-[280px] sm:max-w-[340px] flex items-center">
+            <div className="relative h-10 w-auto max-w-[225px] sm:max-w-[270px] flex items-center">
               <Image
                 src="/images/logo-horizontal.png"
                 alt="ResearchPath — Clinical Services"
-                width={360}
-                height={55}
-                className="h-10 sm:h-12 w-auto object-contain"
+                width={288}
+                height={44}
+                className="h-8 sm:h-[38px] w-auto object-contain"
                 priority
               />
             </div>
