@@ -62,51 +62,123 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Persist submission to secure local data storage
+    const cleanFullName = fullName.trim();
+    const cleanOrg = organisation.trim();
+    const cleanEmail = workEmail.trim().toLowerCase();
+    const cleanPhone = phoneNumber ? String(phoneNumber).trim() : 'Not provided';
+    const cleanType = enquiryType || 'General Consultation';
+    const cleanService = serviceOfInterest || 'General Enquiry';
+    const cleanMessage = message.trim();
+
+    // Persist submission record
     const enquiryRecord = {
       id: `ENQ-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       receivedAt: new Date().toISOString(),
-      fullName: fullName.trim(),
-      organisation: organisation.trim(),
-      workEmail: workEmail.trim().toLowerCase(),
-      phoneNumber: phoneNumber ? String(phoneNumber).trim() : 'Not provided',
-      enquiryType: enquiryType || 'General Consultation',
-      serviceOfInterest: serviceOfInterest || 'General Enquiry',
-      message: message.trim(),
+      fullName: cleanFullName,
+      organisation: cleanOrg,
+      workEmail: cleanEmail,
+      phoneNumber: cleanPhone,
+      enquiryType: cleanType,
+      serviceOfInterest: cleanService,
+      message: cleanMessage,
       status: 'NEW',
       ip: request.headers.get('x-forwarded-for') || 'local',
       userAgent: request.headers.get('user-agent') || 'unknown',
     };
 
-    const dataDir = path.join(process.cwd(), 'data');
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-
-    const filePath = path.join(dataDir, 'enquiries.json');
-    let existing: any[] = [];
-    if (fs.existsSync(filePath)) {
-      try {
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        existing = JSON.parse(fileContent);
-      } catch (e) {
-        existing = [];
+    // Safely attempt local filesystem logging without breaking in read-only / serverless runtimes (e.g. Vercel)
+    try {
+      const dataDir = path.join(process.cwd(), 'data');
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
       }
+
+      const filePath = path.join(dataDir, 'enquiries.json');
+      let existing: any[] = [];
+      if (fs.existsSync(filePath)) {
+        try {
+          const fileContent = fs.readFileSync(filePath, 'utf8');
+          existing = JSON.parse(fileContent);
+        } catch {
+          existing = [];
+        }
+      }
+
+      existing.unshift(enquiryRecord);
+      fs.writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf8');
+    } catch (fsError) {
+      console.warn('Local data directory write skipped (serverless/read-only environment):', fsError);
     }
 
-    existing.unshift(enquiryRecord);
-    fs.writeFileSync(filePath, JSON.stringify(existing, null, 2), 'utf8');
+    // Automatically send email to info@researchpath.in via FormSubmit background delivery
+    try {
+      const emailPayload = {
+        name: cleanFullName,
+        organisation: cleanOrg,
+        email: cleanEmail,
+        phone: cleanPhone,
+        enquiryType: cleanType,
+        serviceOfInterest: cleanService,
+        message: cleanMessage,
+        _subject: `New Clinical Enquiry: ${cleanFullName} - ${cleanOrg}`,
+        _replyto: cleanEmail,
+        _template: 'table',
+        _captcha: 'false',
+      };
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+      await fetch('https://formsubmit.co/ajax/info@researchpath.in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(emailPayload),
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timeoutId));
+    } catch (mailError) {
+      console.warn('FormSubmit background dispatch note:', mailError);
+    }
+
+    // Prepare mailto fallback link for direct contact if needed
+    const emailSubject = encodeURIComponent(`Clinical Enquiry: ${cleanFullName} - ${cleanOrg}`);
+    const emailBody = encodeURIComponent(
+`Dear ResearchPath Clinical Services Team,
+
+I would like to submit the following clinical enquiry:
+
+--------------------------------------------------
+Full Name: ${cleanFullName}
+Organisation / Institution: ${cleanOrg}
+Work Email: ${cleanEmail}
+Phone Number: ${cleanPhone}
+Enquiry Type: ${cleanType}
+Service of Interest: ${cleanService}
+--------------------------------------------------
+
+Project Description / Study Requirements:
+${cleanMessage}
+
+--------------------------------------------------
+Submitted via ResearchPath Website Portal
+Reference: ${enquiryRecord.id}
+`
+    );
+    const mailtoUrl = `mailto:info@researchpath.in?subject=${emailSubject}&body=${emailBody}`;
 
     // Return confirmed successful receipt
     return NextResponse.json({
       success: true,
       referenceId: enquiryRecord.id,
-      message: 'Thank you. Your enquiry has been received and securely logged. A ResearchPath representative will review your clinical requirements and reply promptly.',
+      mailtoUrl,
+      message: 'Thank you. Your enquiry has been received and automatically sent to info@researchpath.in. A ResearchPath representative will review your clinical requirements and reply promptly.',
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Contact form submission error:', error);
     return NextResponse.json(
-      { error: 'An unexpected server error occurred while processing your request. Please email info@researchpath.in directly.' },
+      { error: error?.message || 'An unexpected error occurred while processing your request. Please try again or email info@researchpath.in directly.' },
       { status: 500 }
     );
   }

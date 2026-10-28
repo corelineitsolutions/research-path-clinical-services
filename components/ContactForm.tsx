@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, CheckCircle2, AlertCircle, Loader2, ShieldCheck, Lock } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Loader2, ShieldCheck, Lock, Mail } from 'lucide-react';
 import { servicesData } from '@/lib/servicesData';
 import Link from 'next/link';
 
@@ -27,6 +27,7 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
     type: 'idle' | 'success' | 'error';
     message?: string;
     referenceId?: string;
+    mailtoUrl?: string;
   }>({ type: 'idle' });
 
   const enquiryTypes = [
@@ -69,41 +70,124 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
     setLoading(true);
     setStatus({ type: 'idle' });
 
+    // Generate fallback mailto URL in case of network obstacles
+    const emailSubject = encodeURIComponent(`Clinical Enquiry: ${formData.fullName.trim()} - ${formData.organisation.trim()}`);
+    const emailBody = encodeURIComponent(
+`Dear ResearchPath Clinical Services Team,
+
+I would like to submit the following clinical enquiry:
+
+--------------------------------------------------
+Full Name: ${formData.fullName.trim()}
+Organisation / Institution: ${formData.organisation.trim()}
+Work Email: ${formData.workEmail.trim()}
+Phone Number: ${formData.phoneNumber.trim() || 'Not provided'}
+Enquiry Type: ${formData.enquiryType}
+Service of Interest: ${formData.serviceOfInterest}
+--------------------------------------------------
+
+Project Description / Study Requirements:
+${formData.message.trim()}
+
+--------------------------------------------------
+Submitted via ResearchPath Website Portal
+`
+    );
+    const computedMailto = `mailto:info@researchpath.in?subject=${emailSubject}&body=${emailBody}`;
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      let isSuccess = false;
+      let refId = '';
+      let successMsg = '';
+      let serverMailto = '';
 
-      const data = await response.json();
+      // 1. Primary: Submit through backend API route
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit enquiry.');
+        const data = await response.json();
+        if (response.ok) {
+          isSuccess = true;
+          refId = data.referenceId;
+          successMsg = data.message;
+          serverMailto = data.mailtoUrl;
+        } else {
+          console.warn('API returned non-200:', data);
+        }
+      } catch (apiErr) {
+        console.warn('Backend API request error, proceeding to browser dispatch fallback:', apiErr);
       }
 
-      setStatus({
-        type: 'success',
-        message: data.message,
-        referenceId: data.referenceId,
-      });
+      // 2. Secondary: If backend API was unreachable (e.g. static host), dispatch directly to FormSubmit
+      if (!isSuccess) {
+        try {
+          const fsRes = await fetch('https://formsubmit.co/ajax/info@researchpath.in', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              name: formData.fullName.trim(),
+              organisation: formData.organisation.trim(),
+              email: formData.workEmail.trim(),
+              phone: formData.phoneNumber.trim() || 'Not provided',
+              enquiryType: formData.enquiryType,
+              serviceOfInterest: formData.serviceOfInterest,
+              message: formData.message.trim(),
+              _subject: `New Clinical Enquiry: ${formData.fullName.trim()} - ${formData.organisation.trim()}`,
+              _replyto: formData.workEmail.trim(),
+              _template: 'table',
+              _captcha: 'false',
+            }),
+          });
 
-      // Reset form
-      setFormData({
-        fullName: '',
-        organisation: '',
-        workEmail: '',
-        phoneNumber: '',
-        enquiryType: 'Clinical Study Support',
-        serviceOfInterest: 'General Operational Inquiry',
-        message: '',
-        privacyConsent: false,
-        hp_field: '',
-      });
+          if (fsRes.ok) {
+            isSuccess = true;
+            refId = `ENQ-${Date.now().toString().slice(-6)}`;
+            successMsg = 'Thank you. Your enquiry has been automatically transmitted to info@researchpath.in. A ResearchPath representative will review your clinical requirements and reply promptly.';
+          }
+        } catch (fsErr) {
+          console.warn('Direct FormSubmit error:', fsErr);
+        }
+      }
+
+      if (isSuccess) {
+        setStatus({
+          type: 'success',
+          message: successMsg || 'Thank you. Your enquiry has been automatically transmitted to info@researchpath.in. A representative will review your clinical requirements and reply promptly.',
+          referenceId: refId || `ENQ-${Date.now().toString().slice(-6)}`,
+          mailtoUrl: serverMailto || computedMailto,
+        });
+
+        // Reset form fields
+        setFormData({
+          fullName: '',
+          organisation: '',
+          workEmail: '',
+          phoneNumber: '',
+          enquiryType: 'Clinical Study Support',
+          serviceOfInterest: defaultService || 'General Operational Inquiry',
+          message: '',
+          privacyConsent: false,
+          hp_field: '',
+        });
+      } else {
+        setStatus({
+          type: 'error',
+          message: 'Unable to reach the automatic email dispatch server due to a network restriction. Please click below to send your enquiry directly to info@researchpath.in.',
+          mailtoUrl: computedMailto,
+        });
+      }
     } catch (err: any) {
       setStatus({
         type: 'error',
-        message: err.message || 'We encountered an unexpected error. Please email us directly at info@researchpath.in.',
+        message: err?.message || 'We encountered an unexpected issue. Please click below to send your enquiry directly to info@researchpath.in.',
+        mailtoUrl: computedMailto,
       });
     } finally {
       setLoading(false);
@@ -139,7 +223,7 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div>
-            <h4 className="text-lg font-bold text-emerald-900">Enquiry Successfully Recorded</h4>
+            <h4 className="text-lg font-bold text-emerald-900">Enquiry Transmitted to info@researchpath.in</h4>
             <p className="text-sm text-emerald-800 mt-2 max-w-md mx-auto leading-relaxed">
               {status.message}
             </p>
@@ -153,6 +237,10 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
             For urgent protocol coordination, you may also reach our Pune office directly at{' '}
             <a href="tel:+919146452014" className="text-[#1760B8] font-semibold underline">
               +91 91464 52014
+            </a>{' '}
+            or email{' '}
+            <a href="mailto:info@researchpath.in" className="text-[#1760B8] font-semibold underline">
+              info@researchpath.in
             </a>.
           </p>
           <button
@@ -181,9 +269,20 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
           {status.type === 'error' && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3 text-red-800 text-sm animate-in fade-in duration-200">
               <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-red-900">Submission Error</p>
-                <p className="text-xs text-red-700 mt-0.5">{status.message}</p>
+              <div className="flex-1">
+                <p className="font-medium text-red-900">Submission Notice</p>
+                <p className="text-xs text-red-700 mt-0.5 leading-relaxed">{status.message}</p>
+                {status.mailtoUrl && (
+                  <div className="mt-3">
+                    <a
+                      href={status.mailtoUrl}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1760B8] hover:bg-[#134e96] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>Send directly to info@researchpath.in</span>
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           )}
